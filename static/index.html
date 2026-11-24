@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Steady : Pencatatan Daftar Tugas Kuliah</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header><div class="wrap"><span class="brand">Steady</span><div><h1>Pencatatan Daftar Tugas Kuliah</h1><p>Catat tugas dan deadline.</p></div></div></header>
+  <main class="wrap layout">
+    <section class="form-section" aria-labelledby="form-title">
+      <h2 id="form-title">Tambah tugas</h2>
+      <form id="task-form">
+        <label>Nama tugas<input name="title" required maxlength="255" autocomplete="off"></label>
+        <label>Mata kuliah<input name="course" required maxlength="150" autocomplete="off"></label>
+        <label>Deadline<input name="due_date" type="date" required></label>
+        <label>Status<select name="status"><option value="pending">Belum dikerjakan</option><option value="in_progress">Dikerjakan</option><option value="completed">Selesai</option></select></label>
+        <div class="actions"><button type="submit">Simpan tugas</button><button type="button" id="cancel" class="secondary" hidden>Batal edit</button></div>
+      </form>
+    </section>
+    <section aria-labelledby="list-title"><div class="list-heading"><h2 id="list-title">Daftar tugas</h2><span id="count"></span></div><p id="message" role="status" aria-live="polite"></p><div id="tasks"></div></section>
+  </main>
+</body>
+</html>
