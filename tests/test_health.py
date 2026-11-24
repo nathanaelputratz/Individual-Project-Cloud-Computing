@@ -5,12 +5,21 @@ from unittest.mock import patch
 import pymysql
 from fastapi import HTTPException
 
-from app.main import health, health_db
+from app.main import connect, health, health_db
 
 
 class HealthTests(unittest.TestCase):
     def test_process_health(self):
         self.assertEqual(health(), {"status": "ok"})
+
+    @patch.dict(os.environ, {"DB_HOST": "db.example", "DB_NAME": "steady", "DB_USER": "user", "DB_PASSWORD": "secret", "DB_SSL_CA": "/tmp/rds-ca.pem"})
+    @patch("app.main.pymysql.connect")
+    def test_rds_tls_verifies_certificate_and_hostname(self, mock_connect):
+        connect()
+        options = mock_connect.call_args.kwargs
+        self.assertEqual(options["ssl_ca"], "/tmp/rds-ca.pem")
+        self.assertTrue(options["ssl_verify_cert"])
+        self.assertTrue(options["ssl_verify_identity"])
 
     @patch.dict(os.environ, {"DB_HOST": "localhost", "DB_NAME": "steady", "DB_USER": "user", "DB_PASSWORD": "secret"})
     @patch("app.main.pymysql.connect")
